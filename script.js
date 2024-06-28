@@ -7,7 +7,7 @@ function createGrid(size) {
     console.log(totalBox)
 
     for(let i = 1; i<=totalBox; i++) {
-        bigBox.innerHTML += ("<div class='smallBox'></div>");
+        bigBox.innerHTML += (`<div class='smallBox' data-count="0"></div>`);
     }
 
     let smallBox = document.querySelectorAll(".smallBox");
@@ -23,10 +23,28 @@ function createGrid(size) {
     smallBox.forEach(box => {
     box.addEventListener("mouseover", () => {
 
-            box.classList.add("trailColor")
+            let count = parseInt(box.dataset.count)
+
+            count++;
+
+            box.dataset.count = count;
+
+            let red = Math.floor(Math.random() * 256);
+            let green = Math.floor(Math.random() * 256);
+            let blue = Math.floor(Math.random() * 256);
+            box.style.backgroundColor = `rgb(${red},${green},${blue})`;
+
+            box.dataset.count = count;
+            let opacity = count * 0.1;
+            if (opacity  >=  1 ) {
+                box.style.backgroundColor = `black`;
+                opacity = 1
+            }
+            box.style.opacity = opacity;
+            console.log(count);
 
         });
-     });
+    });
 }
 
 createGrid(16);
@@ -36,10 +54,10 @@ function clearSketch() {
     let newSize;
     let count = 1
     while(count) {
-        newSize = +prompt('Enter a new value to create a new grid with the same value as rows and columns(max: 64)')
+        newSize = +prompt('Enter a new value to create a new grid with the same value as rows and columns(max: 60)')
 
-        if(isNaN(newSize) || newSize>64 || newSize<1) {
-            alert('Enter a number between 1 to 50')
+        if(isNaN(newSize) || newSize>60 || newSize<1) {
+            alert('Enter a number between 1 to 60')
         }
         else{
             count = 0
